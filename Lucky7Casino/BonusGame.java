@@ -1,6 +1,5 @@
 /**
- * Runs a free number-guessing challenge after every five spins.
- * Each earned challenge can be claimed only once.
+ * Runs the number guessing bonus game.
  *
  * @author Nithin Sankar
  */
@@ -8,16 +7,16 @@ public class BonusGame {
     private int lastClaimedSpin;
     private int lastWinningNumber;
 
-    /** Creates a bonus game that has not awarded any prizes. */
+    /** Creates a new bonus game. */
     public BonusGame() {
         lastClaimedSpin = 0;
         lastWinningNumber = 0;
     }
 
     /**
-     * Checks whether the next bonus has been earned but not used.
+     * Checks if five spins have passed and the bonus has not been used.
      *
-     * @param totalSpins the number of paid spins completed
+     * @param totalSpins the number of spins played
      * @return true when a new bonus round can be played
      */
     public boolean isBonusAvailable(int totalSpins) {
@@ -25,11 +24,11 @@ public class BonusGame {
     }
 
     /**
-     * Plays an earned bonus exactly once.
+     * Picks a winning number and checks the player's guess.
      *
      * @param guess player's number from 1 to 5
-     * @param totalSpins the number of completed paid spins
-     * @return the bonus amount earned, $100 or $0
+     * @param totalSpins the number of spins played
+     * @return 100 for a correct guess, or 0 for a wrong guess
      */
     public int playBonus(int guess, int totalSpins) {
 
@@ -39,7 +38,7 @@ public class BonusGame {
     }
 
     /**
-     * Gets the random winning number from the latest bonus attempt.
+     * Gets the winning number from the last bonus game.
      *
      * @return the winning number, or 0 before any bonus
      */
@@ -48,10 +47,10 @@ public class BonusGame {
     }
 
     /**
-     * Converts the result of the guess to a cash reward.
+     * Gets the prize for the player's guess.
      *
-     * @param correct whether the guess matched
-     * @return $100 for a correct guess, otherwise $0
+     * @param correct true if the guess matches the winning number
+     * @return 100 if correct is true, or 0 if it is false
      */
     public int getBonusReward(boolean correct) {
         if (correct) {

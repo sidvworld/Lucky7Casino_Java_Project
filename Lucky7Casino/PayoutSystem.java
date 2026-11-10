@@ -1,18 +1,18 @@
 /**
- * Applies slot-machine payout rules, without generating new symbols.
+ * Calculates how much money a spin pays.
  *
  * @author Hope Le
  */
 public class PayoutSystem {
 
-    /** Creates the payout calculator. */
+    /** Creates a PayoutSystem object. */
     public PayoutSystem() {
     }
 
     /**
-     * Finds a multiplier using the result of an existing spin.
+     * Gets the multiplier for the symbols on the reels.
      *
-     * @param machine the machine that already spun
+     * @param machine the slot machine after a spin
      * @return 10 for triple sevens, 5 for another triple, 2 for a pair, or 0
      */
     public int getMultiplier(SlotMachine machine) {
@@ -27,10 +27,10 @@ public class PayoutSystem {
     }
 
     /**
-     * Computes the total prize, including the original bet.
+     * Multiplies the bet by the multiplier to find the payout.
      *
      * @param bet the original bet
-     * @param multiplier the outcome multiplier
+     * @param multiplier the number to multiply the bet by
      * @return the total payout
      */
     public int calculatePayout(int bet, int multiplier) {
@@ -38,10 +38,10 @@ public class PayoutSystem {
     }
 
     /**
-     * Checks whether a spin will return a prize.
+     * Checks if the spin wins money.
      *
-     * @param machine the machine that already spun
-     * @return true for any matching combination
+     * @param machine the slot machine after a spin
+     * @return true if two or more reels match
      */
     public boolean isWinningSpin(SlotMachine machine) {
         return getMultiplier(machine) > 0;

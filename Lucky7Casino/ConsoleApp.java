@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- * Console interface for Lucky 7 Casino. Only this class reads console input.
+ * Reads player input and prints the game in the console.
  *
  * @author Zuhair Ahmed
  */
@@ -9,17 +9,15 @@ public class ConsoleApp {
     private Scanner scanner;
     private Casino casino;
 
-    /** Sets up the console input reader. */
+    /** Creates a Scanner to read keyboard input. */
     public ConsoleApp() {
         scanner = new Scanner(System.in);
     }
 
-    /** Starts the console game and displays the main menu. */
+    /** Starts the game and shows the menu. */
     public void run() {
-        System.out.println("====================================");
-        System.out.println("        LUCKY 7 CASINO");
-        System.out.println("       Virtual money only!");
-        System.out.println("====================================");
+        System.out.println("Lucky 7 Casino");
+        System.out.println("Virtual money only.");
         String username = askUsername();
         casino = new Casino(username);
         System.out.println("Welcome, " + casino.getPlayerName() + "!");
@@ -41,8 +39,9 @@ public class ConsoleApp {
                 break;
             }
 
-            System.out.println("\nBalance: $" + casino.getPlayerBalance()
-                    + " | Spins: " + casino.getTotalSpins());
+            System.out.println();
+            System.out.println("Balance: $" + casino.getPlayerBalance());
+            System.out.println("Spins: " + casino.getTotalSpins());
             System.out.println("1 - Spin");
             System.out.println("2 - View stats");
             System.out.println("3 - Show rules");
@@ -76,35 +75,37 @@ public class ConsoleApp {
         return scanner.nextLine().trim();
     }
 
-    /** Prompts for a bet, spins the reels, and reports the results. */
+    /** Asks for a bet, plays a spin, and prints the results. */
     private void playSpin() {
-        System.out.print("Enter a bet ($1-$" + casino.getPlayerBalance()
-                + ") or type cancel: ");
+        System.out.println("You can bet from $1 to $" + casino.getPlayerBalance());
+        System.out.print("Enter your bet or type cancel: ");
         String input = scanner.nextLine().trim();
         if (input.equalsIgnoreCase("cancel")) {
             return;
         }
         int bet = Integer.parseInt(input);
         int payout = casino.startRound(bet);
-        System.out.println("\n[ " + casino.getReel1() + " | "
-                + casino.getReel2() + " | " + casino.getReel3() + " ]");
+        System.out.println();
+        System.out.println("Reel 1: " + casino.getReel1());
+        System.out.println("Reel 2: " + casino.getReel2());
+        System.out.println("Reel 3: " + casino.getReel3());
         System.out.println("Multiplier: " + casino.getLastMultiplier() + "x");
         System.out.println("Payout: $" + payout);
-        System.out.println("Net change: "
-                + formatSigned(payout - bet));
+        int change = payout - bet;
+        System.out.println("Balance change: " + change + " dollars");
         System.out.println("New balance: $" + casino.getPlayerBalance());
     }
 
-    /** Plays the free guessing game when it is available. */
+    /** Asks for a guess and prints the bonus result. */
     private void playBonusRound() {
-        System.out.println("\n*** BONUS ROUND UNLOCKED! ***");
+        System.out.println();
+        System.out.println("Bonus round!");
         System.out.println("Guess a number from 1 through 5 for a chance at $100.");
         System.out.print("Your guess (1-5): ");
         String input = scanner.nextLine().trim();
         int guess = Integer.parseInt(input);
         int reward = casino.playBonus(guess);
-        System.out.println("Winning number: "
-                + casino.getLastBonusWinningNumber());
+        System.out.println("Winning number: " + casino.getLastBonusWinningNumber());
         if (reward > 0) {
             System.out.println("Correct! You earned $100!");
         } else {
@@ -112,18 +113,22 @@ public class ConsoleApp {
         }
     }
 
-    /** Displays the official rules used by this game. */
+    /** Prints the game rules. */
     private void showRules() {
-        System.out.println("\n--- RULES ---");
-        System.out.println("Three 7s: 10x | Other triples: 5x | A pair: 2x");
+        System.out.println();
+        System.out.println("Rules:");
+        System.out.println("Three 7s pay 10 times your bet.");
+        System.out.println("Other triples pay 5 times your bet.");
+        System.out.println("A pair pays 2 times your bet.");
         System.out.println("No matches: 0x. Payout includes the original bet.");
         System.out.println("Every 5 spins: free number-guessing bonus for $100.");
         System.out.println("Reach $5,000 to win. No real-money gambling.");
     }
 
-    /** Displays the player's current game statistics. */
+    /** Prints the player's money, spins, wins, and losses. */
     private void showStats() {
-        System.out.println("\n--- STATS for " + casino.getPlayerName() + " ---");
+        System.out.println();
+        System.out.println("Stats for " + casino.getPlayerName());
         System.out.println("Balance: $" + casino.getPlayerBalance());
         System.out.println("Spins: " + casino.getTotalSpins());
         System.out.println("Winning spins: " + casino.getWins());
@@ -131,22 +136,9 @@ public class ConsoleApp {
     }
 
     /**
-     * Formats a net result as positive or negative currency.
+     * Starts the console program.
      *
-     * @param amount payout minus bet
-     * @return a signed dollar amount
-     */
-    private String formatSigned(int amount) {
-        if (amount >= 0) {
-            return "+$" + amount;
-        }
-        return "-$" + (-amount);
-    }
-
-    /**
-     * Launches the console interface.
-     *
-     * @param args optional command line arguments (unused)
+     * @param args command line arguments, not used in this program
      */
     public static void main(String[] args) {
         new ConsoleApp().run();

@@ -19,7 +19,7 @@ java CasinoGUI
 
 In Eclipse: create a Java project, add the seven `.java` files to `src`, then run `ConsoleApp` or `CasinoGUI` as a Java Application.
 
-Input is read directly without validation or exception handling. Enter a username, whole-number bets within your balance, and bonus guesses from 1 to 5.
+The console reads input directly without validation or exception handling. Enter a username, whole-number bets within your balance, and bonus guesses from 1 to 5. The GUI uses a wager menu and five numbered bonus buttons.
 
 ## Rules
 
@@ -43,3 +43,9 @@ Input is read directly without validation or exception handling. Enter a usernam
 ## Assignment note
 
 The shared project plan states your teacher requires each student to write their own core class without AI-generated logic. The five core classes here are a **reference implementation**: do not submit them as student-written work if your teacher has prohibited that. Review, test, and implement the allowed portions yourself. Replace the placeholder `@author` tags with the real contributors only on code they authored.
+
+## Retro arcade GUI
+
+The AI-built Swing interface lives entirely in `CasinoGUI.java`. It includes pixel-drawn symbols and lettering, CRT scanlines, staggered reel animation, a bankroll target meter, and an always-visible paytable. No external images, fonts, or libraries are required; Consolas is used when available, with Java's font fallback otherwise.
+
+Choose a wager and press **SPIN** (or Enter). Every five spins, choose a numbered bonus button. **RESET** starts a fresh game for the same player, and **EXIT** closes the window. The five backend classes still calculate every spin, payout, and bonus; the timer only reveals the result visually. No try/catch blocks or explicit exception handling were added.

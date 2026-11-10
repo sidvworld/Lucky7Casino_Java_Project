@@ -1,5 +1,5 @@
 /**
- * Stores a player's name, virtual balance, and spin statistics.
+ * Stores the player's name, money, wins, and losses.
  *
  * @author Siddharth Kethini
  */
@@ -10,10 +10,10 @@ public class Player {
     private int losses;
 
     /**
-     * Creates a player with the supplied starting balance.
+     * Creates a player with a name and starting amount of money.
      *
      * @param username the player's name
-     * @param startingBalance the initial virtual money amount
+     * @param startingBalance the starting amount of money
      */
     public Player(String username, int startingBalance) {
         this.username = username.trim();
@@ -34,46 +34,46 @@ public class Player {
     /**
      * Gets the current balance.
      *
-     * @return the virtual dollar balance
+     * @return the amount of money the player has
      */
     public int getBalance() {
         return balance;
     }
 
     /**
-     * Checks whether a bet is positive and affordable.
+     * Checks if the player has enough money for the bet.
      *
-     * @param bet the proposed bet
-     * @return true when the bet is valid
+     * @param bet the amount to bet
+     * @return true if the bet is greater than 0 and no more than the balance
      */
     public boolean canAffordBet(int bet) {
         return bet > 0 && bet <= balance;
     }
 
     /**
-     * Deducts a valid bet before the reels spin.
+     * Subtracts the bet from the player's money.
      *
-     * @param bet the amount to deduct
+     * @param bet the amount to subtract
      */
     public void placeBet(int bet) {
         balance -= bet;
     }
 
     /**
-     * Adds earned virtual money to the balance.
+     * Adds winnings to the player's money.
      *
-     * @param amount nonnegative money earned
+     * @param amount the amount of money won
      */
     public void addWinnings(int amount) {
         balance += amount;
     }
 
-    /** Increases the number of profitable spins. */
+    /** Adds 1 to the number of wins. */
     public void recordWin() {
         wins++;
     }
 
-    /** Increases the number of losing spins. */
+    /** Adds 1 to the number of losses. */
     public void recordLoss() {
         losses++;
     }

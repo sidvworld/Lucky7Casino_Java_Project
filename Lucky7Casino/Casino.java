@@ -1,13 +1,12 @@
 /**
- * Coordinates the player, slot machine, payouts, and bonus rounds.
- * All game rules live here or in the other core classes, not in the UI.
+ * Uses the other classes to run the casino game.
  *
  * @author Siddharth Ghosh
  */
 public class Casino {
-    /** Starting virtual money for every new player. */
+    /** The amount of money a new player starts with. */
     public static final int STARTING_BALANCE = 1000;
-    /** Virtual balance needed to win the game. */
+    /** The amount of money needed to win the game. */
     public static final int GOAL = 5000;
 
     private Player player;
@@ -36,10 +35,10 @@ public class Casino {
     }
 
     /**
-     * Plays one paid round and updates the player's balance and statistics.
+     * Plays one spin and updates the player's money, wins, and losses.
      *
-     * @param bet money to wager
-     * @return the total payout earned for that round
+     * @param bet the amount to bet
+     * @return the money paid back from the spin
      */
     public int startRound(int bet) {
 
@@ -60,9 +59,9 @@ public class Casino {
     }
 
     /**
-     * Claims an earned bonus and credits the reward.
+     * Plays the bonus game and adds any money won.
      *
-     * @param guess an integer from 1 through 5
+     * @param guess the player's guess from 1 to 5
      * @return $100 or $0
      */
     public int playBonus(int guess) {
@@ -72,25 +71,25 @@ public class Casino {
     }
 
     /**
-     * Checks whether a bonus can be claimed right now.
+     * Checks if the bonus game is ready.
      *
-     * @return true when a free challenge is available
+     * @return true if the bonus game is ready
      */
     public boolean isBonusAvailable() {
         return bonusGame.isBonusAvailable(totalSpins);
     }
 
     /**
-     * Checks whether there is more game to play.
+     * Checks if the player can keep playing.
      *
-     * @return true unless the goal is reached or no moves remain
+     * @return true if the goal is not reached and the player has money or a bonus
      */
     public boolean canContinue() {
         return !hasReachedGoal() && (player.getBalance() > 0 || isBonusAvailable());
     }
 
     /**
-     * Checks the virtual-dollar target.
+     * Checks if the player has reached the winning amount.
      *
      * @return true when balance is at least $5,000
      */
@@ -108,7 +107,7 @@ public class Casino {
     }
 
     /**
-     * Gets the player's remaining virtual money.
+     * Gets the player's money.
      *
      * @return balance
      */
@@ -117,7 +116,7 @@ public class Casino {
     }
 
     /**
-     * Gets the total number of paid spins.
+     * Gets the number of spins played.
      *
      * @return number of spins
      */
@@ -126,7 +125,7 @@ public class Casino {
     }
 
     /**
-     * Gets the count of winning spins.
+     * Gets the number of wins.
      *
      * @return total wins
      */
@@ -135,7 +134,7 @@ public class Casino {
     }
 
     /**
-     * Gets the count of losing spins.
+     * Gets the number of losses.
      *
      * @return total losses
      */
@@ -171,7 +170,7 @@ public class Casino {
     }
 
     /**
-     * Gets the latest multiplier.
+     * Gets the multiplier from the last spin.
      *
      * @return 0, 2, 5, or 10
      */
@@ -180,7 +179,7 @@ public class Casino {
     }
 
     /**
-     * Gets the previous bet.
+     * Gets the bet from the last spin.
      *
      * @return bet amount
      */
@@ -189,7 +188,7 @@ public class Casino {
     }
 
     /**
-     * Gets the latest round's total payout.
+     * Gets the money paid back from the last spin.
      *
      * @return payout amount
      */
@@ -198,9 +197,9 @@ public class Casino {
     }
 
     /**
-     * Gets the most recent bonus's winning number.
+     * Gets the winning number from the last bonus game.
      *
-     * @return the random number, 1 through 5 (or 0 if not played)
+     * @return the winning number from 1 to 5, or 0 before the first bonus
      */
     public int getLastBonusWinningNumber() {
         return bonusGame.getLastWinningNumber();

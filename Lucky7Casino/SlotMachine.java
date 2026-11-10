@@ -1,7 +1,7 @@
 /**
- * Spins three reels and identifies matching symbols.
+ * Stores three symbols and checks for matches.
  *
- * @author Student Name
+ * @author Siddharth Ghosh
  */
 public class SlotMachine {
     private String reel1;
@@ -9,7 +9,7 @@ public class SlotMachine {
     private String reel3;
     private static final String[] SYMBOLS = {"7", "CHERRY", "LEMON", "BELL"};
 
-    /** Creates a slot machine with three unspun reels. */
+    /** Creates a slot machine with a question mark on each reel. */
     public SlotMachine() {
         reel1 = "?";
         reel2 = "?";
@@ -24,7 +24,7 @@ public class SlotMachine {
     }
 
     /**
-     * Generates one of four equally likely symbols.
+     * Picks one of the four symbols at random.
      *
      * @return the randomly chosen symbol
      */
@@ -79,7 +79,7 @@ public class SlotMachine {
     }
 
     /**
-     * Checks whether every reel is a seven.
+     * Checks if all three reels show 7.
      *
      * @return true for three sevens
      */
