@@ -1,12 +1,12 @@
 /**
  * Uses the other classes to run the casino game.
  *
- * @author Siddharth Ghosh
+ * @author Zuhair Ahmed
  */
 public class Casino {
-    /** The amount of money a new player starts with. */
+    // The amount of money a new player starts with.
     public static final int STARTING_BALANCE = 1000;
-    /** The amount of money needed to win the game. */
+    // The amount of money needed to win the game.
     public static final int GOAL = 5000;
 
     private Player player;
@@ -19,8 +19,7 @@ public class Casino {
     private int lastMultiplier;
 
     /**
-     * Sets up a new game for one player.
-     *
+     * set's up a new game for one player.
      * @param username the player's name
      */
     public Casino(String username) {
@@ -35,14 +34,17 @@ public class Casino {
     }
 
     /**
-     * Plays one spin and updates the player's money, wins, and losses.
-     *
+     * plays one spin and updates the players  money, wins, and losses
      * @param bet the amount to bet
-     * @return the money paid back from the spin
+     * @return the money paid back, or 0 if the round cannot be played
      */
     public int startRound(int bet) {
+        // Check before changing the balance or counting a spin.
+        if (hasReachedGoal() || isBonusAvailable() || !player.canAffordBet(bet)) {
+            return 0;
+        }
 
-        player.placeBet(bet); // Deduct the bet only once.
+        player.placeBet(bet); // deduct the bet only once.
         machine.spin();
         lastMultiplier = payoutSystem.getMultiplier(machine);
         lastPayout = payoutSystem.calculatePayout(bet, lastMultiplier);
@@ -71,7 +73,7 @@ public class Casino {
     }
 
     /**
-     * Checks if the bonus game is ready.
+     * checks if the bonus game is ready
      *
      * @return true if the bonus game is ready
      */
@@ -80,7 +82,7 @@ public class Casino {
     }
 
     /**
-     * Checks if the player can keep playing.
+     * checks if the player can keep playing.
      *
      * @return true if the goal is not reached and the player has money or a bonus
      */
@@ -89,7 +91,7 @@ public class Casino {
     }
 
     /**
-     * Checks if the player has reached the winning amount.
+     * checks if the player has reached the winning amount.
      *
      * @return true when balance is at least $5,000
      */
@@ -98,7 +100,7 @@ public class Casino {
     }
 
     /**
-     * Gets the player's name.
+     * Gets the players name
      *
      * @return username
      */
@@ -107,7 +109,7 @@ public class Casino {
     }
 
     /**
-     * Gets the player's money.
+     * Gets the players money
      *
      * @return balance
      */
@@ -116,7 +118,7 @@ public class Casino {
     }
 
     /**
-     * Gets the number of spins played.
+     * Gets the number of spins played
      *
      * @return number of spins
      */
@@ -125,7 +127,7 @@ public class Casino {
     }
 
     /**
-     * Gets the number of wins.
+     * Gets the number of wins
      *
      * @return total wins
      */
@@ -134,8 +136,7 @@ public class Casino {
     }
 
     /**
-     * Gets the number of losses.
-     *
+     * Gets the number of losses
      * @return total losses
      */
     public int getLosses() {
@@ -152,8 +153,7 @@ public class Casino {
     }
 
     /**
-     * Gets the second symbol from the last round.
-     *
+     * Gets the second symbol from the last round
      * @return the second reel
      */
     public String getReel2() {
@@ -161,7 +161,7 @@ public class Casino {
     }
 
     /**
-     * Gets the third symbol from the last round.
+     * gets the third symbol from the last round
      *
      * @return the third reel
      */
@@ -170,7 +170,7 @@ public class Casino {
     }
 
     /**
-     * Gets the multiplier from the last spin.
+     * get the multiplier from the last spin.
      *
      * @return 0, 2, 5, or 10
      */
@@ -179,16 +179,15 @@ public class Casino {
     }
 
     /**
-     * Gets the bet from the last spin.
-     *
-     * @return bet amount
+     * Gets the bet from the last spin
+     * @return the bet amount
      */
     public int getLastBet() {
         return lastBet;
     }
 
     /**
-     * Gets the money paid back from the last spin.
+     * gets the money paid back from the last spin.
      *
      * @return payout amount
      */
@@ -197,8 +196,7 @@ public class Casino {
     }
 
     /**
-     * Gets the winning number from the last bonus game.
-     *
+     * gets the winning number from the last bonus game
      * @return the winning number from 1 to 5, or 0 before the first bonus
      */
     public int getLastBonusWinningNumber() {

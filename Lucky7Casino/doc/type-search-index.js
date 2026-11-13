@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"<Unnamed>","l":"BonusGame"},{"p":"<Unnamed>","l":"Casino"},{"p":"<Unnamed>","l":"CasinoGUI"},{"p":"<Unnamed>","l":"ConsoleApp"},{"p":"<Unnamed>","l":"PayoutSystem"},{"p":"<Unnamed>","l":"Player"},{"p":"<Unnamed>","l":"SlotMachine"}]

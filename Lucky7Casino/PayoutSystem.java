@@ -1,21 +1,22 @@
 /**
- * Calculates how much money a spin pays.
+ * calculates how much money a spin pays.
  *
  * @author Hope Le
  */
 public class PayoutSystem {
 
-    /** Creates a PayoutSystem object. */
+    /** creates a the object. */
     public PayoutSystem() {
     }
 
     /**
-     * Gets the multiplier for the symbols on the reels.
+     * gets the multiplier for the symbols on the reels
      *
      * @param machine the slot machine after a spin
      * @return 10 for triple sevens, 5 for another triple, 2 for a pair, or 0
      */
     public int getMultiplier(SlotMachine machine) {
+        // check three 7s first because they also count as a triple.
         if (machine.isJackpot()) {
             return 10;
         } else if (machine.countMatches() == 3) {
@@ -27,8 +28,7 @@ public class PayoutSystem {
     }
 
     /**
-     * Multiplies the bet by the multiplier to find the payout.
-     *
+     * Multiplies the bet by the multiplier to find the payout
      * @param bet the original bet
      * @param multiplier the number to multiply the bet by
      * @return the total payout
@@ -38,8 +38,7 @@ public class PayoutSystem {
     }
 
     /**
-     * Checks if the spin wins money.
-     *
+     * checks if the spin wins money.
      * @param machine the slot machine after a spin
      * @return true if two or more reels match
      */

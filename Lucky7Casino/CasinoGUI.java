@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -39,10 +40,13 @@ public class CasinoGUI extends JFrame {
 
     /** Opens the arcade and asks for a player name. */
     public CasinoGUI() {
-        this(JOptionPane.showInputDialog(null, "ENTER YOUR PLAYER NAME", "PLAYER 01"));
+        this(askPlayerName());
     }
 
-    /** Builds a cabinet for the named player. */
+    /**
+     * Builds a cabinet for the named player.
+     * @param name the player's name
+     */
     public CasinoGUI(String name) {
         super("LUCKY 7 / Midnight Arcade");
         casino = new Casino(name);
@@ -56,6 +60,21 @@ public class CasinoGUI extends JFrame {
             paintBonusButtons();
         });
         refreshDisplay();
+    }
+
+    private static String askPlayerName() {
+        while (true) {
+            String name = JOptionPane.showInputDialog(null, "ENTER YOUR PLAYER NAME (1-20 CHARACTERS)", "PLAYER 01");
+            if (name == null) {
+                return "PLAYER 01";
+            }
+            name = name.trim();
+            if (name.length() >= 1 && name.length() <= 20) {
+                return name;
+            }
+            JOptionPane.showMessageDialog(null, "Username must be 1 to 20 characters long.",
+                    "Invalid Name", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private Font font(int size) {
@@ -133,6 +152,7 @@ public class CasinoGUI extends JFrame {
         JPanel wager = panel(new BorderLayout(0, 6), PANEL);
         wager.add(label("WAGER / $", 12, MUTED), BorderLayout.NORTH);
         betBox = new JComboBox<Integer>();
+        betBox.setEditable(true);
         betBox.setFont(font(22));
         betBox.setBackground(INK);
         betBox.setForeground(CREAM);
@@ -206,8 +226,25 @@ public class CasinoGUI extends JFrame {
 
     /** Casino decides the result once; the timer only animates its reveal. */
     private void spin() {
+        String input = betBox.getEditor().getItem().toString().trim();
+        Scanner numberInput = new Scanner(input);
+        if (!numberInput.hasNextInt()) {
+            numberInput.close();
+            JOptionPane.showMessageDialog(this, "Please enter a whole number for your bet.",
+                    "Invalid Bet", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int bet = numberInput.nextInt();
+        boolean extraInput = numberInput.hasNext();
+        numberInput.close();
+        if (extraInput || bet < 1 || bet > casino.getPlayerBalance()) {
+            JOptionPane.showMessageDialog(this, "Enter one bet between $1 and $" + casino.getPlayerBalance(),
+                    "Invalid Bet", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         stopWinAnimation();
-        lastBet = (Integer) betBox.getSelectedItem();
+        lastBet = bet;
+        betBox.setSelectedItem(bet);
         lastPayout = casino.startRound(lastBet);
         spinning = true;
         animationFrame = 0;
@@ -299,7 +336,7 @@ public class CasinoGUI extends JFrame {
         statsLabel.setText("SPINS " + casino.getTotalSpins() + " / W " + casino.getWins()
                 + " / L " + casino.getLosses());
         goalBar.setValue(casino.getPlayerBalance());
-        Integer selected = (Integer) betBox.getSelectedItem();
+        Object selected = betBox.getSelectedItem();
         betBox.removeAllItems();
         int[] bets = {1, 5, 10, 25, 50, 100, 250, 500, 1000};
         for (int bet : bets) {
@@ -542,6 +579,10 @@ public class CasinoGUI extends JFrame {
         }
     }
 
+    /**
+     * Starts the graphical game.
+     * @param args command line arguments, not used
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new CasinoGUI().setVisible(true));
     }

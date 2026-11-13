@@ -19,7 +19,7 @@ java CasinoGUI
 
 In Eclipse: create a Java project, add the seven `.java` files to `src`, then run `ConsoleApp` or `CasinoGUI` as a Java Application.
 
-The console reads input directly without validation or exception handling. Enter a username, whole-number bets within your balance, and bonus guesses from 1 to 5. The GUI uses a wager menu and five numbered bonus buttons.
+Both interfaces check input before using it. Names must be 1-20 characters, bets must be whole numbers within your balance, and bonus guesses must be 1-5. The console prints an error and asks again; the GUI shows an error message. These checks use Scanner.hasNextInt() and if statements, with no try/catch or throw statements. The GUI wager menu also accepts typed bets.
 
 ## Rules
 
@@ -49,3 +49,9 @@ The shared project plan states your teacher requires each student to write their
 The AI-built Swing interface lives entirely in `CasinoGUI.java`. It includes pixel-drawn symbols and lettering, CRT scanlines, staggered reel animation, a bankroll target meter, and an always-visible paytable. No external images, fonts, or libraries are required; Consolas is used when available, with Java's font fallback otherwise.
 
 Choose a wager and press **SPIN** (or Enter). Every five spins, choose a numbered bonus button. **RESET** starts a fresh game for the same player, and **EXIT** closes the window. The five backend classes still calculate every spin, payout, and bonus; the timer only reveals the result visually. No try/catch blocks or explicit exception handling were added.
+
+## Current documentation and review
+
+The updated generated documentation is in `doc/index.html`. Submit the entire `doc` folder, including its supporting files. The older `javadoc` folder is outdated. The current folder was generated with the JDK Javadoc tool; the assignment specifically asks for Eclipse generation, so regenerate it using Eclipse's Project > Generate Javadoc before the final submission.
+
+See `../PROJECT_REVIEW.md` for the requirement-by-requirement review, remaining group responsibilities, and submission checklist. Source changes to validation and comments were AI-assisted and should be included in the project disclosure and reflection.

@@ -1,6 +1,5 @@
 /**
- * Stores the player's name, money, wins, and losses.
- *
+ * stores the players name, money, wins, and losses.
  * @author Siddharth Kethini
  */
 public class Player {
@@ -10,7 +9,7 @@ public class Player {
     private int losses;
 
     /**
-     * Creates a player with a name and starting amount of money.
+     * ceates a player with a name and starting amount of money.
      *
      * @param username the player's name
      * @param startingBalance the starting amount of money
@@ -23,8 +22,7 @@ public class Player {
     }
 
     /**
-     * Gets the player's username.
-     *
+     * gets the playerss username.
      * @return the username
      */
     public String getUsername() {
@@ -32,8 +30,7 @@ public class Player {
     }
 
     /**
-     * Gets the current balance.
-     *
+     * Gets the  current balance
      * @return the amount of money the player has
      */
     public int getBalance() {
@@ -41,46 +38,47 @@ public class Player {
     }
 
     /**
-     * Checks if the player has enough money for the bet.
-     *
+     * checks if the player has enough money for the bet
      * @param bet the amount to bet
-     * @return true if the bet is greater than 0 and no more than the balance
+     * @return true if the  bet is greater than 0 and no more than the balance
      */
     public boolean canAffordBet(int bet) {
         return bet > 0 && bet <= balance;
     }
 
     /**
-     * Subtracts the bet from the player's money.
-     *
+     * Subtracts the bet from the playerss money
      * @param bet the amount to subtract
      */
     public void placeBet(int bet) {
-        balance -= bet;
+        // A rejected bet should not change the player's money.
+        if (canAffordBet(bet)) {
+            balance -= bet;
+        }
     }
 
     /**
-     * Adds winnings to the player's money.
-     *
+     * Adds winnings to the players money
      * @param amount the amount of money won
      */
     public void addWinnings(int amount) {
-        balance += amount;
+        if (amount >= 0) {
+            balance += amount;
+        }
     }
 
-    /** Adds 1 to the number of wins. */
+    /** adds 1 to the number of wins. */
     public void recordWin() {
         wins++;
     }
 
-    /** Adds 1 to the number of losses. */
+    /** adds 1 to the number of losses */
     public void recordLoss() {
         losses++;
     }
 
     /**
-     * Gets the number of winning spins.
-     *
+     * gets the number of winning spins
      * @return number of wins
      */
     public int getWins() {
@@ -88,8 +86,7 @@ public class Player {
     }
 
     /**
-     * Gets the number of losing spins.
-     *
+     * Gets the number  of losing spins
      * @return number of losses
      */
     public int getLosses() {
