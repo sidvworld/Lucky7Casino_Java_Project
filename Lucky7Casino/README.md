@@ -48,7 +48,7 @@ The shared project plan states your teacher requires each student to write their
 
 The AI-built Swing interface lives entirely in `CasinoGUI.java`. It includes pixel-drawn symbols and lettering, CRT scanlines, staggered reel animation, a bankroll target meter, and an always-visible paytable. No external images, fonts, or libraries are required; Consolas is used when available, with Java's font fallback otherwise.
 
-Choose a wager and press **SPIN** (or Enter). Every five spins, choose a numbered bonus button. **RESET** starts a fresh game for the same player, and **EXIT** closes the window. The five backend classes still calculate every spin, payout, and bonus; the timer only reveals the result visually. No try/catch blocks or explicit exception handling were added.
+Choose a wager and press **SPIN** (or Enter). Every five spins, choose a numbered bonus button. **EXIT** closes the window. To start a new game, launch CasinoGUI again. The five backend classes still calculate every spin, payout, and bonus; the timer only reveals the result visually. No try/catch blocks or explicit exception handling were added.
 
 ## Current documentation and review
 

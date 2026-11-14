@@ -21,7 +21,7 @@ public class ConsoleApp {
         String username = askUsername();
         casino = new Casino(username);
         System.out.println("Welcome, " + casino.getPlayerName() + "!");
-        System.out.println("You start with $1,000. Try to reach $5,000!");
+        System.out.println("You start with $1,000. Try to reach $5,000");
         showRules();
 
         boolean playing = true;
@@ -31,7 +31,9 @@ public class ConsoleApp {
                 break;
             }
             if (casino.isBonusAvailable()) {
+                // do this before checking for $0 bc the bonus could save the game.
                 playBonusRound();
+                // go back up and check the new balance before showing the menu.
                 continue;
             }
             if (!casino.canContinue()) {
@@ -74,6 +76,7 @@ public class ConsoleApp {
         while (true) {
             System.out.print("Enter a username (1-20 characters): ");
             String name = scanner.nextLine().trim();
+            // gotta check after trimming so a name made of spaces won't sneak through.
             if (name.length() >= 1 && name.length() <= 20) {
                 return name;
             }
@@ -88,6 +91,7 @@ public class ConsoleApp {
             System.out.print("Enter your bet or type cancel: ");
             String input = scanner.nextLine().trim();
             if (input.equals("cancel")) {
+                // head back to the menu without placing a bet.
                 return;
             }
             // Check before reading a number so letters do not stop the game.
@@ -99,12 +103,15 @@ public class ConsoleApp {
             }
             int bet = numberInput.nextInt();
             boolean extraInput = numberInput.hasNext();
+            // close just this input scanner; we still need the main keyboard scanner.
             numberInput.close();
             if (extraInput) {
+                // gotta reject stuff
                 System.out.println("Please enter only one whole number.");
                 continue;
             }
             if (bet < 1 || bet > casino.getPlayerBalance()) {
+                // a whole number can still be invalid if it's too small or too expensive.
                 System.out.println("Bet must be between $1 and $" + casino.getPlayerBalance());
                 continue;
             }
@@ -116,6 +123,7 @@ public class ConsoleApp {
             System.out.println("Multiplier: " + casino.getLastMultiplier() + "x");
             System.out.println("Payout: $" + payout);
             int change = payout - bet;
+            // subtract the bet to show what the player actually gained or lost.
             System.out.println("Balance change: " + change + " dollars");
             System.out.println("New balance: $" + casino.getPlayerBalance());
             return;
@@ -130,6 +138,7 @@ public class ConsoleApp {
         while (true) {
             System.out.print("Your guess (1-5): ");
             Scanner numberInput = new Scanner(scanner.nextLine().trim());
+            // check first bc letters or decimals would make nextInt fail.
             if (!numberInput.hasNextInt()) {
                 numberInput.close();
                 System.out.println("Please enter a whole number from 1 to 5.");
@@ -139,6 +148,7 @@ public class ConsoleApp {
             boolean extraInput = numberInput.hasNext();
             numberInput.close();
             if (extraInput || guess < 1 || guess > 5) {
+                // keep asking until there's exactly one number in the allowed range.
                 System.out.println("Enter one number from 1 to 5.");
                 continue;
             }

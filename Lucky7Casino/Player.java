@@ -15,6 +15,7 @@ public class Player {
      * @param startingBalance the starting amount of money
      */
     public Player(String username, int startingBalance) {
+        // trim off extra spaces so they don't become part of the name.
         this.username = username.trim();
         balance = startingBalance;
         wins = 0;
@@ -43,6 +44,7 @@ public class Player {
      * @return true if the  bet is greater than 0 and no more than the balance
      */
     public boolean canAffordBet(int bet) {
+        // gotta check both ends here bc a zero or negative bet isn't valid either.
         return bet > 0 && bet <= balance;
     }
 
@@ -62,6 +64,7 @@ public class Player {
      * @param amount the amount of money won
      */
     public void addWinnings(int amount) {
+        // ignore negative amounts bc winnings shouldn't take money away tho.
         if (amount >= 0) {
             balance += amount;
         }

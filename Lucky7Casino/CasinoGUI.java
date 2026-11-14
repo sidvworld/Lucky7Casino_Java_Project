@@ -208,12 +208,9 @@ public class CasinoGUI extends JFrame {
         payouts.add(rows, BorderLayout.CENTER);
         payouts.add(label("PAYOUT INCLUDES BET", 11, MUTED), BorderLayout.SOUTH);
         sidebar.add(payouts, BorderLayout.CENTER);
-        JPanel utility = panel(new GridLayout(1, 2, 10, 0), INK);
-        JButton restart = button("RESET", PANEL, CREAM);
-        restart.addActionListener(event -> resetGame());
+        JPanel utility = panel(new GridLayout(1, 1), INK);
         JButton quit = button("EXIT", PANEL, CREAM);
         quit.addActionListener(event -> dispose());
-        utility.add(restart);
         utility.add(quit);
         sidebar.add(utility, BorderLayout.SOUTH);
 
@@ -375,7 +372,7 @@ public class CasinoGUI extends JFrame {
             messageLabel.setForeground(GREEN);
             spinButton.setText("YOU WIN!");
         } else if (!casino.canContinue()) {
-            messageLabel.setText("BANKROLL EMPTY. RESET TO PLAY AGAIN.");
+            messageLabel.setText("BANKROLL EMPTY. THANKS FOR PLAYING!");
             spinButton.setText("GAME OVER");
         }
         screen.repaint();
@@ -387,19 +384,6 @@ public class CasinoGUI extends JFrame {
             choice.setBackground(bonusLit ? GOLD : new Color(57, 77, 61));
             choice.setForeground(bonusLit ? INK : CREAM);
         }
-    }
-
-    private void resetGame() {
-        stopWinAnimation();
-        if (spinning) {
-            spinTimer.stop();
-        }
-        spinning = false;
-        casino = new Casino(casino.getPlayerName());
-        displayed = new String[] {"7", "7", "7"};
-        messageLabel.setText("FRESH COINS. FRESH LUCK.");
-        messageLabel.setForeground(GOLD);
-        refreshDisplay();
     }
 
     /** Stops the animation when the window closes. */

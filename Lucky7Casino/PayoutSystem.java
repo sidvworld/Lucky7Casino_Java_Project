@@ -34,6 +34,7 @@ public class PayoutSystem {
      * @return the total payout
      */
     public int calculatePayout(int bet, int multiplier) {
+        // this is the whole payout, so don't add the original bet again.
         return bet * multiplier;
     }
 
@@ -43,6 +44,8 @@ public class PayoutSystem {
      * @return true if two or more reels match
      */
     public boolean isWinningSpin(SlotMachine machine) {
+        // reuse the payout rules here so the win check stays in sync with them
+        // wait why didnt we use this
         return getMultiplier(machine) > 0;
     }
 }

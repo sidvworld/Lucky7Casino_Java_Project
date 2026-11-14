@@ -20,6 +20,7 @@ public class BonusGame {
      * @return true when a new bonus round can be played
      */
     public boolean isBonusAvailable(int totalSpins) {
+        // every fifth spin unlocks one try; spin 0 and the already used bonuses dont count
         return totalSpins > 0 && totalSpins % 5 == 0 && totalSpins != lastClaimedSpin;
     }
 
@@ -31,13 +32,14 @@ public class BonusGame {
      * @return 100 for a correct guess, or 0 for a wrong guess or unavailable play
      */
     public int playBonus(int guess, int totalSpins) {
-        // Invalid guesses leave the earned bonus available for another attempt.
+        // invalid guesses leave the earned bonus available for another attempt
         if (!isBonusAvailable(totalSpins) || guess < 1 || guess > 5) {
             return 0;
         }
 
         lastWinningNumber = (int) (Math.random() * 5) + 1;
-        lastClaimedSpin = totalSpins; // Prevents claiming the same bonus twice.
+        // use up this bonus even on a wrong guess, so theres no retry until the next one
+        lastClaimedSpin = totalSpins; // Prevents  claiming the same bonus twice
         return getBonusReward(guess == lastWinningNumber);
     }
 
@@ -57,6 +59,7 @@ public class BonusGame {
      * @return 100 if correct is true, or 0 if it is false
      */
     public int getBonusReward(boolean correct) {
+        // a wrong guess just pays nothing; it doesn't cost the player extra money.
         if (correct) {
             return 100;
         }

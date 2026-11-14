@@ -18,6 +18,7 @@ public class SlotMachine {
 
     /** poicks a random symbol for each reel */
     public void spin() {
+        // give each reel its own random pick so matching symbols can still happen.
         reel1 = randomSymbol();
         reel2 = randomSymbol();
         reel3 = randomSymbol();
@@ -28,6 +29,7 @@ public class SlotMachine {
      * @return the randomly chosen symbol
      */
     private String randomSymbol() {
+        // casting drops the decimal, giving us an index from 0 through 3.
         int index = (int) (Math.random() * 4);
 
         if (index == 0) {
@@ -71,6 +73,7 @@ public class SlotMachine {
      * @return 3 for all equal, 2 for one pair, or 0 for all different
      */
     public int countMatches() {
+        // these question marks dont count as matches bc no spin happened yet.
         if (reel1.equals("?") || reel2.equals("?") || reel3.equals("?")) {
             return 0;
         }
@@ -81,6 +84,7 @@ public class SlotMachine {
         }
 
         if (reel1.equals(reel2) || reel1.equals(reel3) || reel2.equals(reel3)) {
+            // any two reels can make a pair, even the first and last ones.
             return 2;
         }
 

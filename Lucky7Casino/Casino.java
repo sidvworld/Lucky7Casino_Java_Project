@@ -40,6 +40,7 @@ public class Casino {
      */
     public int startRound(int bet) {
         // Check before changing the balance or counting a spin.
+        // gotta finish a pending bonus before allowing another regular spin.
         if (hasReachedGoal() || isBonusAvailable() || !player.canAffordBet(bet)) {
             return 0;
         }
@@ -48,11 +49,13 @@ public class Casino {
         machine.spin();
         lastMultiplier = payoutSystem.getMultiplier(machine);
         lastPayout = payoutSystem.calculatePayout(bet, lastMultiplier);
+        // bet already got taken out so just add the payout rn.
         player.addWinnings(lastPayout);
         lastBet = bet;
         totalSpins++;
 
         if (lastPayout > bet) {
+            // count a win when the player actually ends up ahead on this spin.
             player.recordWin();
         } else {
             player.recordLoss();
@@ -67,6 +70,7 @@ public class Casino {
      * @return $100 or $0
      */
     public int playBonus(int guess) {
+        // BonusGame checks the guess and availability before we add any reward.
         int reward = bonusGame.playBonus(guess, totalSpins);
         player.addWinnings(reward);
         return reward;
@@ -87,6 +91,7 @@ public class Casino {
      * @return true if the goal is not reached and the player has money or a bonus
      */
     public boolean canContinue() {
+        // even at $0, an earned bonus could give the player money to keep going.
         return !hasReachedGoal() && (player.getBalance() > 0 || isBonusAvailable());
     }
 
