@@ -28,39 +28,36 @@ public class ConsoleApp {
         while (playing) {
             if (casino.hasReachedGoal()) {
                 System.out.println("YOU WIN! You reached $5,000!");
-                break;
-            }
-            if (casino.isBonusAvailable()) {
+                playing = false;
+            } else if (casino.isBonusAvailable()) {
                 // do this before checking for $0 bc the bonus could save the game.
                 playBonusRound();
-                // go back up and check the new balance before showing the menu.
-                continue;
-            }
-            if (!casino.canContinue()) {
+            } else if (!casino.canContinue()) {
                 System.out.println("Game over! You have no  money left.");
-                break;
-            }
-
-            System.out.println();
-            System.out.println("Balance: $" + casino.getPlayerBalance());
-            System.out.println("Spins: " + casino.getTotalSpins());
-            System.out.println("1 - Spin");
-            System.out.println("2 - View Stats");
-            System.out.println("3 - Show rules");
-            System.out.println("4 - Quit");
-            System.out.print("Choose an option: ");
-            String option = scanner.nextLine().trim();
-
-            if (option.equals("1")) {
-                playSpin();
-            } else if (option.equals("2")) {
-                showStats();
-            } else if (option.equals("3")) {
-                showRules();
-            } else if (option.equals("4")) {
                 playing = false;
             } else {
-                System.out.println("Invalid Option. Please choose 1, 2, 3, or  4.");
+
+                System.out.println();
+                System.out.println("Balance: $" + casino.getPlayerBalance());
+                System.out.println("Spins: " + casino.getTotalSpins());
+                System.out.println("1 - Spin");
+                System.out.println("2 - View Stats");
+                System.out.println("3 - Show rules");
+                System.out.println("4 - Quit");
+                System.out.print("Choose an option: ");
+                String option = scanner.nextLine().trim();
+
+                if (option.equals("1")) {
+                    playSpin();
+                } else if (option.equals("2")) {
+                    showStats();
+                } else if (option.equals("3")) {
+                    showRules();
+                } else if (option.equals("4")) {
+                    playing = false;
+                } else {
+                    System.out.println("Invalid Option. Please choose 1, 2, 3, or  4.");
+                }
             }
         }
         System.out.println("Thanks you for playing " + casino.getPlayerName() + "!");
@@ -99,34 +96,32 @@ public class ConsoleApp {
             if (!numberInput.hasNextInt()) {
                 numberInput.close();
                 System.out.println("Please enter a whole number for your bet.");
-                continue;
+            } else {
+                int bet = numberInput.nextInt();
+                boolean extraInput = numberInput.hasNext();
+                // close just this input scanner; we still need the main keyboard scanner.
+                numberInput.close();
+                if (extraInput) {
+                    // gotta reject stuff
+                    System.out.println("Please enter only one whole number.");
+                } else if (bet < 1 || bet > casino.getPlayerBalance()) {
+                    // a whole number can still be invalid if it's too small or too expensive.
+                    System.out.println("Bet must be between $1 and $" + casino.getPlayerBalance());
+                } else {
+                    int payout = casino.startRound(bet);
+                    System.out.println();
+                    System.out.println("Reel 1: " + casino.getReel1());
+                    System.out.println("Reel 2: " + casino.getReel2());
+                    System.out.println("Reel 3: " + casino.getReel3());
+                    System.out.println("Multiplier: " + casino.getLastMultiplier() + "x");
+                    System.out.println("Payout: $" + payout);
+                    int change = payout - bet;
+                    // subtract the bet to show what the player actually gained or lost.
+                    System.out.println("Balance change: " + change + " dollars");
+                    System.out.println("New balance: $" + casino.getPlayerBalance());
+                    return;
+                }
             }
-            int bet = numberInput.nextInt();
-            boolean extraInput = numberInput.hasNext();
-            // close just this input scanner; we still need the main keyboard scanner.
-            numberInput.close();
-            if (extraInput) {
-                // gotta reject stuff
-                System.out.println("Please enter only one whole number.");
-                continue;
-            }
-            if (bet < 1 || bet > casino.getPlayerBalance()) {
-                // a whole number can still be invalid if it's too small or too expensive.
-                System.out.println("Bet must be between $1 and $" + casino.getPlayerBalance());
-                continue;
-            }
-            int payout = casino.startRound(bet);
-            System.out.println();
-            System.out.println("Reel 1: " + casino.getReel1());
-            System.out.println("Reel 2: " + casino.getReel2());
-            System.out.println("Reel 3: " + casino.getReel3());
-            System.out.println("Multiplier: " + casino.getLastMultiplier() + "x");
-            System.out.println("Payout: $" + payout);
-            int change = payout - bet;
-            // subtract the bet to show what the player actually gained or lost.
-            System.out.println("Balance change: " + change + " dollars");
-            System.out.println("New balance: $" + casino.getPlayerBalance());
-            return;
         }
     }
 
@@ -142,24 +137,24 @@ public class ConsoleApp {
             if (!numberInput.hasNextInt()) {
                 numberInput.close();
                 System.out.println("Please enter a whole number from 1 to 5.");
-                continue;
-            }
-            int guess = numberInput.nextInt();
-            boolean extraInput = numberInput.hasNext();
-            numberInput.close();
-            if (extraInput || guess < 1 || guess > 5) {
-                // keep asking until there's exactly one number in the allowed range.
-                System.out.println("Enter one number from 1 to 5.");
-                continue;
-            }
-            int reward = casino.playBonus(guess);
-            System.out.println("Winning number: " + casino.getLastBonusWinningNumber());
-            if (reward > 0) {
-                System.out.println("Correct! You earned $100!");
             } else {
-                System.out.println("Wrong. No payout");
+                int guess = numberInput.nextInt();
+                boolean extraInput = numberInput.hasNext();
+                numberInput.close();
+                if (extraInput || guess < 1 || guess > 5) {
+                    // keep asking until there's exactly one number in the allowed range.
+                    System.out.println("Enter one number from 1 to 5.");
+                } else {
+                    int reward = casino.playBonus(guess);
+                    System.out.println("Winning number: " + casino.getLastBonusWinningNumber());
+                    if (reward > 0) {
+                        System.out.println("Correct! You earned $100!");
+                    } else {
+                        System.out.println("Wrong. No payout");
+                    }
+                    return;
+                }
             }
-            return;
         }
     }
 
